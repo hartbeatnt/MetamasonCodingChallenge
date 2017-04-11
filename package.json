@@ -1,0 +1,23 @@
+{
+  "name": "metamasoncodingchallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "three": "^0.84.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hartbeatnt/MetamasonCodingChallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hartbeatnt/MetamasonCodingChallenge/issues"
+  },
+  "homepage": "https://github.com/hartbeatnt/MetamasonCodingChallenge#readme"
+}
