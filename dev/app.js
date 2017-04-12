@@ -24,6 +24,8 @@ window.addEventListener('keydown', e=>{
 window.addEventListener('keyup', e=>{
   if (e.key in keyboard) keyboard[e.key] = false;
 })
+
+// handle window resizing
 window.addEventListener('resize', ()=>{
   camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
