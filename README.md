@@ -11,7 +11,7 @@ create the bundle:
 >
 >webpack
 
-After that, open index.html in use your keyboard's arrow keys to
-cycle through the image gallery.
+After that, open index.html in your browser and use your keyboard's 
+arrow keys to cycle through the image gallery.
 
 Enjoy!
