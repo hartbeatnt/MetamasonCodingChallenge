@@ -25,16 +25,26 @@ window.addEventListener('keyup', e=>{
   if (e.key in keyboard) keyboard[e.key] = false;
 })
 
+// initialize texture loader
+const loader = new THREE.TextureLoader();
+loader.crossOrigin = '';
+
 // create layout for the picture frames
 const positions = circleLayout( 20, 12, camera.position );
+
+// create a plane at each position
 positions.forEach(position=>{
   let { x, y, z } = position;
   let geometry = new THREE.PlaneBufferGeometry( 10, 10 );
-  let material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
-  let plane = new THREE.Mesh( geometry, material );
-  plane.position.set( x, y, z );
-  plane.lookAt( camera.position );
-  scene.add( plane );
+  // texture loading is async, must be attached to mesh in callback
+  let rand = Math.floor(Math.random()*1000)
+  loader.load(`https://unsplash.it/256?image=${rand}`, texture=>{
+    let material = new THREE.MeshBasicMaterial( {map: texture} );
+    let plane = new THREE.Mesh( geometry, material );
+    plane.position.set( x, y, z );
+    plane.lookAt( camera.position );
+    scene.add( plane );
+  })
 })
 
 // set up animation loop
@@ -55,7 +65,6 @@ const animate = time => {
 
 // logic for smooth camera rotation
 const rotateCamera = deltaTime => {
-  console.log(deltaTime)
   let cameraSpeed = .25;
   camera.rotateY(cameraSpeed / deltaTime)
 }
