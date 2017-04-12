@@ -28,7 +28,6 @@ window.addEventListener('keyup', e=>{
 // initialize texture loader
 const loader = new THREE.TextureLoader();
 loader.crossOrigin = '';
-
 // create layout for the picture frames
 const positions = circleLayout( 20, 12, camera.position );
 
@@ -36,14 +35,24 @@ const positions = circleLayout( 20, 12, camera.position );
 positions.forEach(position=>{
   let { x, y, z } = position;
   let geometry = new THREE.PlaneBufferGeometry( 10, 10 );
+  // use a flat grey material until texture is loaded
+  let material = new THREE.MeshBasicMaterial({ color: 0xD3D3D3})
+  let plane = new THREE.Mesh( geometry, material );
+  plane.position.set( x, y, z );
+  plane.lookAt( camera.position );
+  scene.add( plane );
   // texture loading is async, must be attached to mesh in callback
-  let rand = Math.floor(Math.random()*1000)
+  let rand = Math.floor(Math.random()*1000);
   loader.load(`https://unsplash.it/256?image=${rand}`, texture=>{
-    let material = new THREE.MeshBasicMaterial( {map: texture} );
-    let plane = new THREE.Mesh( geometry, material );
-    plane.position.set( x, y, z );
-    plane.lookAt( camera.position );
-    scene.add( plane );
+    plane.material = new THREE.MeshBasicMaterial({ map: texture });
+  }, null, error => {
+    // some random urls at unsplash appear to be broken. If we find
+    // a broken url, load one that we know works instead.
+    console.warn(`an error occured loading image at https://unsplash.it/256?image=${rand}.
+    Trying again with new image.`)
+    loader.load('https://unsplash.it/256?image=426', texture=>{
+      plane.material = new THREE.MeshBasicMaterial({ map: texture });
+    })
   })
 })
 
@@ -56,17 +65,11 @@ const animate = time => {
   oldTime = time;
 
   // rotate camera based on keyboard state
-  keyboard.ArrowLeft && rotateCamera(-deltaTime);
-  keyboard.ArrowRight && rotateCamera(deltaTime);
+  keyboard.ArrowLeft && camera.rotateY(-0.25 / deltaTime);
+  keyboard.ArrowRight && camera.rotateY(0.25 / deltaTime);
 
   // render scene
   renderer.render( scene, camera );
-}
-
-// logic for smooth camera rotation
-const rotateCamera = deltaTime => {
-  let cameraSpeed = .25;
-  camera.rotateY(cameraSpeed / deltaTime)
 }
 
 // initialize animation
