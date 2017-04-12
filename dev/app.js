@@ -12,16 +12,55 @@ renderer.setClearColor("#ffffff");
 renderer.setSize( winW, winH );
 document.body.appendChild( renderer.domElement );
 
+// set up listeners for keyboard state
+const keyboard = {
+  ArrowLeft: false,
+  ArrowRight: false,
+}
+
+window.addEventListener('keydown', e=>{
+  if (e.key in keyboard) keyboard[e.key] = true;
+})
+window.addEventListener('keyup', e=>{
+  if (e.key in keyboard) keyboard[e.key] = false;
+})
+
 // create layout for the picture frames
-const positions = circleLayout(20, 12, camera.position);
+const positions = circleLayout( 20, 12, camera.position );
 positions.forEach(position=>{
   let { x, y, z } = position;
   let geometry = new THREE.PlaneBufferGeometry( 10, 10 );
   let material = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
   let plane = new THREE.Mesh( geometry, material );
-  plane.position.set(x, y, z);
-  plane.lookAt(camera.position)
-  scene.add(plane);
+  plane.position.set( x, y, z );
+  plane.lookAt( camera.position );
+  scene.add( plane );
 })
 
-renderer.render(scene, camera);
+// set up animation loop
+const animate = time => {
+  requestAnimationFrame( animate );
+
+  // adjust for variance in computer speed
+  deltaTime = oldTime - time;
+  oldTime = time;
+
+  // rotate camera based on keyboard state
+  keyboard.ArrowLeft && rotateCamera(-deltaTime);
+  keyboard.ArrowRight && rotateCamera(deltaTime);
+
+  // render scene
+  renderer.render( scene, camera );
+}
+
+// logic for smooth camera rotation
+const rotateCamera = deltaTime => {
+  console.log(deltaTime)
+  let cameraSpeed = .0005;
+  camera.rotateY(cameraSpeed * deltaTime)
+}
+
+// initialize animation
+let oldTime = performance.now();
+let deltaTime = 0;
+animate(oldTime);

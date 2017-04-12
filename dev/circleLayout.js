@@ -1,4 +1,4 @@
-// loosely based on Kevin Ngo's A-Frame layout component:
+// modified from Kevin Ngo's A-Frame Layout component:
 // github.com/ngokevin/kframe/tree/master/components/layout/
 
 const circleLayout = (radius, quantity, center) => {
@@ -14,4 +14,4 @@ const circleLayout = (radius, quantity, center) => {
   return positions;
 }
 
-export { circleLayout }
+export { circleLayout };
