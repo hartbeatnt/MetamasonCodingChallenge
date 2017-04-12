@@ -9,6 +9,9 @@ create the bundle:
 
 >npm install
 >
->-webpack
+>webpack
 
-After that, open index.html in your browser and enjoy!
+After that, open index.html in use your keyboard's arrow keys to
+cycle through the image gallery.
+
+Enjoy!
