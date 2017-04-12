@@ -56,8 +56,8 @@ const animate = time => {
 // logic for smooth camera rotation
 const rotateCamera = deltaTime => {
   console.log(deltaTime)
-  let cameraSpeed = .0005;
-  camera.rotateY(cameraSpeed * deltaTime)
+  let cameraSpeed = .25;
+  camera.rotateY(cameraSpeed / deltaTime)
 }
 
 // initialize animation
