@@ -24,10 +24,16 @@ window.addEventListener('keydown', e=>{
 window.addEventListener('keyup', e=>{
   if (e.key in keyboard) keyboard[e.key] = false;
 })
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 // initialize texture loader
 const loader = new THREE.TextureLoader();
 loader.crossOrigin = '';
+
 // create layout for the picture frames
 const positions = circleLayout( 20, 12, camera.position );
 
@@ -48,8 +54,9 @@ positions.forEach(position=>{
   }, null, error => {
     // some random urls at unsplash appear to be broken. If we find
     // a broken url, load one that we know works instead.
-    console.warn(`an error occured loading image at https://unsplash.it/256?image=${rand}.
-    Trying again with new image.`)
+    console.warn(`no image found at 
+    https://unsplash.it/256?image=${rand}.
+    Trying again with new url.`)
     loader.load('https://unsplash.it/256?image=426', texture=>{
       plane.material = new THREE.MeshBasicMaterial({ map: texture });
     })
