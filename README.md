@@ -8,6 +8,6 @@ in the project's root directory to install dependencies and
 create the bundle:
 
 >npm install
->webpack
+webpack
 
 After that, open index.html in your browser and enjoy!
